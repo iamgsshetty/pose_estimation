@@ -1,9 +1,9 @@
-#SETUP
+# SETUP
 
 - require a text editor
 - browser
 
-#DOWNLOAD
+# DOWNLOAD
 
 - index.html
 - sketch.js
