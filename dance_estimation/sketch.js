@@ -21,7 +21,7 @@ function setup()
   poseNet.on('pose',gotPoses);
 }
 
-function modelLoaded() // to check if ml5 modelis loaded
+function modelLoaded() // to check if ml5 model is loaded
 {
   console.log('Model Loaded!');
 }
