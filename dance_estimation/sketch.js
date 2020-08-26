@@ -155,7 +155,7 @@ function draw()
   }
   else // check if both person doing the same move or not 
   {
-    for(let t=0;t<=10;t++)
+    for(let t=0;t<=6;t++)
     {
       if(record_angle1[t]>record_angle2-10 && record_angle1[t]<record_angle2+10)
       {
