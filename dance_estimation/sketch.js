@@ -21,7 +21,7 @@ function setup()
   poseNet.on('pose',gotPoses);
 }
 
-function modelLoaded() 
+function modelLoaded() // to check if ml5 modelis loaded
 {
   console.log('Model Loaded!');
 }
@@ -29,13 +29,13 @@ function modelLoaded()
 function gotPoses(poses)
 {
   //if(a==1)
-  //console.log(poses);
-  if(poses.length >0)
+  //console.log(poses); // to print pose 
+  if(poses.length >0) // storing pose of first person
   {
     pose=poses[0].pose;
     skeleton=poses[0].skeleton;
   }
-  if(poses.length >1)
+  if(poses.length >1) // storing pose of second person
   {
     pose2=poses[1].pose;
     skeleton2=poses[1].skeleton;
@@ -49,7 +49,7 @@ function mousePressed()
   a=2;
 }
 
-function record_angle1()
+function record_angle1() // finding angle made by each skeleton with horizontal plane of first person
 {
     angle1.push(atan((pose.leftEye.y-pose.rightEye.y)/(pose.leftEye.x-pose.rightEye.x)));
     angle1.push(atan((pose.leftAnkle.y-pose.rightAnkle.y)/(pose.leftAnkle.x-pose.rightAnkle.x)));
@@ -59,7 +59,7 @@ function record_angle1()
     angle1.push(atan((pose.leftShoulder.y-pose.rightShoulder.y)/(pose.leftShoulder.x-pose.rightShoulder.x)));
     angle1.push(atan((pose.leftWrist.y-pose.rightWrist.y)/(pose.leftWrist.x-pose.rightWrist.x)));
 }
-function record_angle2()
+function record_angle2() // finding angle made by each skeleton with horizontal plane of second person
 {
     angle2.push(atan((pose2.leftEye.y-pose2.rightEye.y)/(pose2.leftEye.x-pose2.rightEye.x)));
     angle2.push(atan((pose2.leftAnkle.y-pose2.rightAnkle.y)/(pose2.leftAnkle.x-pose2.rightAnkle.x)));
@@ -73,30 +73,30 @@ function draw()
 {
   background(220);
   image(video,0,0);
-  if(pose)
+  if(pose) // run only if first person in picture
   {
     c=1;
     for(let i=0;i<pose.keypoints.length;i++)
     {
       fill(0,255,0);
-      ellipse(pose.keypoints[i].position.x,pose.keypoints[i].position.y,20);
+      ellipse(pose.keypoints[i].position.x,pose.keypoints[i].position.y,20); // drawing circle on the joints of first person
       if(a==1)
       {
-        rec_pose.push(pose.keypoints);
+        rec_pose.push(pose.keypoints); // updating array with new pose
       }
     }
     for(let i=0;i<skeleton.length;i++)
     {
       strokeWeight(5);
       stroke(255);
-      line(skeleton[i][0].position.x,skeleton[i][0].position.y,skeleton[i][1].position.x,skeleton[i][1].position.y);
-      if(a==1)
+      line(skeleton[i][0].position.x,skeleton[i][0].position.y,skeleton[i][1].position.x,skeleton[i][1].position.y); //drawing the skeleton of first person
+      if(a==1) // execute only if mouse pressed
       {
-        rec_skeleton.push(skeleton);
-        record_angle1();
+        rec_skeleton.push(skeleton); // updating array with new skeleton
+        record_angle1(); // execute function to find angle
       }
     }
-    if(a==2)
+    if(a==2) // display result after mouse pressed second time 
     {
       console.log("POSITION");
       console.log(rec_pose);
@@ -107,30 +107,30 @@ function draw()
   }
   else
     c=0;
-  if(pose2)
+  if(pose2) // run only if second person in picture
   {
     b=1;
     for(let i=0;i<pose2.keypoints.length;i++)
     {
       fill(0,255,0);
-      ellipse(pose2.keypoints[i].position.x,pose2.keypoints[i].position.y,20);
+      ellipse(pose2.keypoints[i].position.x,pose2.keypoints[i].position.y,20);  // drawing circle on the joints of second person
       if(a==1)
       {
-        rec_pose2.push(pose2.keypoints);
+        rec_pose2.push(pose2.keypoints); // updating array with new pose
       }
     }
     for(let i=0;i<skeleton2.length;i++)
     {
       strokeWeight(5);
       stroke(255);
-      line(skeleton2[i][0].position.x,skeleton2[i][0].position.y,skeleton2[i][1].position.x,skeleton2[i][1].position.y);
-      if(a==1)
+      line(skeleton2[i][0].position.x,skeleton2[i][0].position.y,skeleton2[i][1].position.x,skeleton2[i][1].position.y); //drawing the skeleton of second person
+      if(a==1) // execute only if mouse pressed
       {
-        rec_skeleton2.push(skeleton2);
-        record_angle2();
+        rec_skeleton2.push(skeleton2); // updating array with new skeleton
+        record_angle2(); // execute function to find angle
       }
     }
-    if(a==2)
+    if(a==2) // display result after mouse pressed second time 
     {
       console.log("POSITION  2");
       console.log(rec_pose2);
@@ -141,19 +141,19 @@ function draw()
   }
   else
     b=0;
-  if(c==0 || pose.score<0.09)
+  if(c==0 || pose.score<0.1) // check if the first person in picture
   {
     fill(0);
     textSize(70);
     text("first person not found",30,600);
   }
-  else if(b==0 || pose2.score<0.09)
+  else if(b==0 || pose2.score<0.09) // check if the second person in picture
   {
     fill(0);
     textSize(70);
     text("Second person not found",30,600);
   }
-  else
+  else // check if both person doing the same move or not 
   {
     for(let t=0;t<=10;t++)
     {
@@ -168,6 +168,8 @@ function draw()
         fill(0);
         textSize(70);
         text("Wrong Movement",30,600);
+        angle1=[];
+        angle2=[];
         break;
       }
     }
