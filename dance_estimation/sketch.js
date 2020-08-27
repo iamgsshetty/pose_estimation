@@ -147,7 +147,7 @@ function draw()
     textSize(70);
     text("first person not found",30,600);
   }
-  else if(b==0 || pose2.score<0.09) // check if the second person in picture
+  else if(b==0 || pose2.score<0.1) // check if the second person in picture
   {
     fill(0);
     textSize(70);
@@ -168,10 +168,10 @@ function draw()
         fill(0);
         textSize(70);
         text("Wrong Movement",30,600);
-        angle1=[];
-        angle2=[];
         break;
       }
     }
+    angle1=[];
+    angle2=[];
   }
 }
